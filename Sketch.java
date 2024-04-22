@@ -2,75 +2,129 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 
+/**
+* A program that makes an atom thingy.
+* @author: L.Lam
+*
+*/
+
 
 public class Sketch extends PApplet {
-	
+ 
   // Global Variables
   PImage earthBackground;
-  PImage moonImage; 
+  PImage ElectronImage;
 
-  float fltEarthBackgroundX = 200;
-  float fltEarthBackgroundY = 200;
 
-  float fltMoonX = 50;
-  float fltMoonY = 50;
-  float fltMoonSpeedX = 10000;
-  float fltMoonSpeedY = 10000;
-  float fltMoonRadius = 75;
-  float fltRadius = 160;
-  float fltCurrentAngle;
+  float fltEarthBackgroundX = 0;
+  float fltEarthBackgroundY = 0;
 
-  float fltAsteroidX = 20;
-  float fltAsteroidY = 220;
-  float fltAsteroidSpeedX = 10;
-  float fltAsteroidSpeedY = 10;
-  float fltAsteroidRadius = 30;
-  
+
+  float[] fltElectronX;
+  float[] fltElectronY;
+  float[] fltElectronSpeedX;
+  float[] fltElectronSpeedY;
+  float[] fltElectronRadius;
+  float[] fltRadius;
+  float[] fltCurrentAngle;
+
+
+  float fltNeutronX = 800;
+  float fltNeutronY = 800;
+  float fltNeutronSpeedX = 30;
+  float fltNeutronSpeedY = 40;
+  float fltNeutronRadius = 50;
+ 
+   /**
+  * @param settings sets the size of the window
+  * @author L.Lam
+  */
+
+
   public void settings() {
-	  // Size of the canvas
-    size(400, 400);
+    size(800, 800);
   }
 
- 
+
+   /**
+  * @param setup loads and resizes images and background
+  * @author L.Lam
+  */
+
+
   public void setup() {
- 
-    earthBackground = loadImage("pic2.png");
-    earthBackground.resize(earthBackground.width*2, earthBackground.height*2);
-    moonImage = loadImage("yellow-foam-ball-with-only-two-eyes-NO-expression-emoji-1024x576.png");
-    moonImage.resize(75, 75);
+
+
+    // Load images and resize them
+    earthBackground = loadImage("nucleus.jpg");
+    earthBackground.resize(height, width);
+    ElectronImage = loadImage("electron.png");
+    ElectronImage.resize(35, 35);
+
+
+    // Initialize arrays for electrons
+    int numberOfElectrons = 10;
+    fltElectronX = new float[numberOfElectrons];
+    fltElectronY = new float[numberOfElectrons];
+    fltElectronSpeedX = new float[numberOfElectrons];
+    fltElectronSpeedY = new float[numberOfElectrons];
+    fltElectronRadius = new float[numberOfElectrons];
+    fltRadius = new float[numberOfElectrons];
+    fltCurrentAngle = new float[numberOfElectrons];
+
+
+    // Poperties for each electron
+    for (int i = 0; i < numberOfElectrons; i++) {
+      fltElectronRadius[i] = 50 + i * 30;
+      fltRadius[i] = 150 + i * 30;
+      fltCurrentAngle[i] = random(360);
+      fltElectronSpeedX[i] = random(-2, 2);
+      fltElectronSpeedY[i] = random(-2, 2);
+    }
   }
+
+
+   /**
+  * @param Draw Draws neutron
+  * @author L.Lam
+  */
+
 
   public void draw() {
-    // Improted images drawn to the screen with global variables.
-	  image(earthBackground, fltEarthBackgroundX, fltEarthBackgroundY);
-    
-    image(moonImage, fltMoonX + fltEarthBackgroundX, fltMoonY + fltEarthBackgroundY);
-    
-    // Circle asteroid with craters
-    noStroke();
-    fill(128, 128, 128);
-    ellipse(fltAsteroidX, fltAsteroidY, fltAsteroidRadius, fltAsteroidRadius);
-
-    // Basic edge detection and movement of the asteroid.
-    fltAsteroidX = fltAsteroidX + fltAsteroidSpeedX;
-    fltAsteroidY = fltAsteroidY + fltAsteroidSpeedY;
-    
-    if(fltAsteroidX < 0 || fltAsteroidX > width) {
-      fltAsteroidSpeedX = fltAsteroidSpeedX * -1;
-    }
-
-    if(fltAsteroidY < 0 || fltAsteroidY > height) {
-      fltAsteroidSpeedY = fltAsteroidSpeedY * -1;
-    }
-
-    // Movement of the moon
-    fltCurrentAngle += 1;
-    
-    // Movement of the moon in a circular motion based off the given radius.
-    fltMoonX = (int) (fltRadius * Math.sin(fltCurrentAngle * Math.PI / 180));
-    fltMoonY = (int) (fltRadius * Math.cos(fltCurrentAngle * Math.PI / 360));
+    // Draw the background image
+    image(earthBackground, fltEarthBackgroundX, fltEarthBackgroundY);
    
+    // Draw Electrons
+    for (int i = 0; i < fltElectronX.length; i++) {
+      fltCurrentAngle[i] += 1;
+      fltElectronX[i] = width / 2 + (int) (fltRadius[i] * Math.sin(fltCurrentAngle[i] * Math.PI / 180));
+      fltElectronY[i] = height / 2 + (int) (fltRadius[i] * Math.cos(fltCurrentAngle[i] * Math.PI / 180));
+      image(ElectronImage, fltElectronX[i] - ElectronImage.width / 2, fltElectronY[i] - ElectronImage.height / 2);
 
+
+    }
+   
+    // Draw the neutron
+    noStroke();
+    fill(50, 255, 40);
+    ellipse(fltNeutronX, fltNeutronY, fltNeutronRadius, fltNeutronRadius);
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(50);
+    text("o", fltNeutronX, fltNeutronY);
+
+
+    // Move the neutron and adds edge detection
+    fltNeutronX += fltNeutronSpeedX;
+    fltNeutronY += fltNeutronSpeedY;
+    if(fltNeutronX < 0 || fltNeutronX > width) {
+      fltNeutronSpeedX *= -1;
+    }
+    if(fltNeutronY < 0 || fltNeutronY > height) {
+      fltNeutronSpeedY *= -1;
+    }
   }
-
 }
+
+
+
