@@ -73,7 +73,7 @@ public class Sketch extends PApplet {
     fltCurrentAngle = new float[numberOfElectrons];
 
 
-    // Poperties for each electron
+    // Poperties
     for (int i = 0; i < numberOfElectrons; i++) {
       fltElectronRadius[i] = 50 + i * 30;
       fltRadius[i] = 150 + i * 30;
@@ -85,13 +85,14 @@ public class Sketch extends PApplet {
 
 
    /**
-  * @param Draw Draws neutron
+  * @param Draw Draws electrons, neutrons and background images
   * @author L.Lam
   */
 
 
   public void draw() {
-    // Draw the background image
+   
+    // Background image
     image(earthBackground, fltEarthBackgroundX, fltEarthBackgroundY);
    
     // Draw Electrons
