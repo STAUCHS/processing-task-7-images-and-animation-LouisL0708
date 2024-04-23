@@ -36,8 +36,8 @@ public class Sketch extends PApplet {
   float fltNeutronRadius = 50;
  
    /**
-  * @param settings sets the size of the window
-  * @author L.Lam
+  * sets the size of the window
+  * 
   */
 
 
@@ -46,9 +46,9 @@ public class Sketch extends PApplet {
   }
 
 
-   /**
-  * @param setup loads and resizes images and background
-  * @author L.Lam
+  /**
+  * loads and resizes images and background
+  * 
   */
 
 
@@ -84,14 +84,14 @@ public class Sketch extends PApplet {
   }
 
 
-   /**
-  * @param Draw Draws electrons, neutrons and background images
-  * @author L.Lam
+  /**
+  * Draws neutron and electrons
+  * 
   */
 
 
   public void draw() {
-   
+
     // Background image
     image(earthBackground, fltEarthBackgroundX, fltEarthBackgroundY);
    
@@ -105,7 +105,7 @@ public class Sketch extends PApplet {
 
     }
    
-    // Draw the neutron
+    // Draw the Neutron
     noStroke();
     fill(50, 255, 40);
     ellipse(fltNeutronX, fltNeutronY, fltNeutronRadius, fltNeutronRadius);
